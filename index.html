@@ -2,7 +2,16 @@
 <!doctype html public "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US">
 <head>
-	
+	<style>
+#sDiv0 {position:absolute; height:1; width:1; font-family:arial black; font-size:15px; color:Aqua;}
+#sDiv1 {position:absolute; height:1; width:1; font-family:arial black; font-size:15px; color:red;}
+#sDiv2 {position:absolute; height:1; width:1; font-family:arial black; font-size:15px; color:blue;}
+#sDiv3 {position:absolute; height:1; width:1; font-family:arial black; font-size:15px; color:orange;}
+#sDiv4 {position:absolute; height:1; width:1; font-family:arial black; font-size:15px; color:yellow;}
+#sDiv5 {position:absolute; height:1; width:1; font-family:arial black; font-size:15px; color:lightgreen;}
+#sDiv6 {position:absolute; height:1; width:1; font-family:arial black; font-size:15px; color:silver;}
+</style>
+
 	<title>Config the Minesweeper</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta http-equiv="Content-Language" content="en-US" />
@@ -68,6 +77,236 @@
 	</script>
 </head>
 <body>
+	<div id="sDiv0">*</div>
+<div id="sDiv1">*</div>
+<div id="sDiv2">*</div>
+<div id="sDiv3">*</div>
+<div id="sDiv4">*</div>
+<div id="sDiv5">*</div>
+<div id="sDiv6">*</div>
+<p></p>
+<SCRIPT LANGUAGE="JavaScript1.2">
+<!--
+/*
+Document firework script (By Matt Gabbert, mgabbert@usrtoday.com, http://www.nolag.com)
+Modified and permission granted to Dynamic Drive to feature script in archive
+For full source and 100's more DHTML scripts, visit http://dynamicdrive.com
+*/
+//set Interval between each firework display, 
+var intervals=2000
+var sparksOn = true;
+var speed = 40;
+var power = 3;
+
+//Dont change these values-------
+var documentWidth=documentHeight=randomx=randomy=leftcorner=topcorner=0
+var ns=(document.layers);
+var ie=(document.all);
+var sparksAflyin = false;
+var allDivs = new Array(10);
+var totalSparks = 0;
+//-------------------------------
+
+function initAll(){
+if(!ns && !ie){
+sparksOn = false;
+return;
+}
+setInterval("firework()",intervals)
+
+if (ns)
+document.captureEvents(Event.MOUSEDOWN | Event.MOUSEMOVE);
+for(dNum=0; dNum<7; ++dNum){
+if(ie)
+allDivs[dNum]=eval('document.all.sDiv'+dNum+'.style');
+else
+allDivs[dNum]=eval('document.layers["sDiv'+dNum+'"]');
+}
+}
+
+function firework(){
+//below code detects the browser dimenions
+if (ie){
+documentWidth=document.body.clientWidth
+documentHeight=document.body.clientHeight
+leftcorner=document.body.scrollLeft
+topcorner=document.body.scrollTop
+}
+else if (ns){
+documentWidth=window.innerWidth
+documentHeight=window.innerHeight
+leftcorner=pageXOffset
+topcorner=pageYOffset
+
+}
+//below code randomly generates a set of coordinates that fall within the dimension
+randomx=leftcorner+Math.floor(Math.random()*documentWidth)
+randomy=topcorner+Math.floor(Math.random()*documentHeight)
+
+
+if(sparksOn){
+if(!sparksAflyin){
+sparksAflyin=true;
+totalSparks=0;
+for(var spark=0;spark<=6;spark++){
+dx=Math.round(Math.random()*50);
+dy=Math.round(Math.random()*50);
+moveTo(spark,randomx,randomy,dx,dy);
+}
+}
+}
+}
+
+function moveTo(i,tempx,tempy,dx,dy){
+if(ie){
+if(tempy+80>(document.body.offsetHeight+document.body.scrollTop))
+tempy=document.body.offsetHeight+document.body.scrollTop-80;
+if(tempx+80>(document.body.offsetWidth+document.body.scrollLeft))
+tempx=document.body.offsetWidth+document.body.scrollLeft-80;
+}
+if(tempx>-50&&tempy>-50){
+tempx+=dx;tempy+=dy; 
+allDivs[i].left=tempx;
+allDivs[i].top=tempy;
+dx-=power;dy-=power;
+setTimeout("moveTo("+i+","+tempx+","+tempy+","+dx+","+dy+")",speed)
+}
+else
+++totalSparks
+if(totalSparks==7){
+sparksAflyin=false;
+totalSparks=0;
+}
+}
+window.onload=initAll
+//End-->
+</script>
+
+<script language="JavaScript"> 
+cOlOuRs=new Array("abbbff","ffffee","ffff7a","dffffd","ffaaa0","ffddd0") 
+S_amount = 30;//number of small stars!!!!! 
+L_amount = 15;//number of larger stars!!!! 
+S_Ypos = new Array(); 
+S_Xpos = new Array(); 
+L_Ypos = new Array(); 
+L_Xpos = new Array(); 
+S_speed= new Array(); 
+L_speed= new Array(); 
+if (document.all) 
+{ 
+for (i = 0; i < S_amount; i++) 
+{ 
+S_Ypos[i] = Math.round(Math.random()*document.body.offsetHeight); 
+S_Xpos[i] = Math.round(Math.random()*document.body.offsetWidth); 
+} 
+for (i = 0; i < L_amount; i++) 
+{ 
+L_Ypos[i] = Math.round(Math.random()*document.body.offsetHeight); 
+L_Xpos[i] = Math.round(Math.random()*document.body.offsetWidth); 
+} 
+document.write('<div id="Outer" style="position:absolute;top:0px;left:0px">'); 
+document.write('<div id="Inner" style="position:relative">'); 
+for (i = 0; i < S_amount; i++) 
+{document.write('<div id="ieS_star" style="position:absolute;top:'+S_Ypos[i]+';left:'+S_Xpos[i]+';width:1px;height:1px;background:#fffff0;font-size:1px"></div>');} 
+for (i = 0; i < L_amount; i++) 
+{document.write('<div id="ieL_star" style="position:absolute;top:'+L_Ypos[i]+';left:'+L_Xpos[i]+';width:2px;height:2px;background:#ffffff;font-size:2px"></div>');} 
+document.write('</div>'); 
+document.write('</div>'); 
+for (i = 0; i < L_amount; i++) 
+{ 
+for (j = 0; j < cOlOuRs.length; j++) 
+{var NewColour=Math.round(Math.random()*[j])} 
+document.all.ieS_star[i].style.background=cOlOuRs[NewColour]; 
+document.all.ieL_star[i].style.background=cOlOuRs[NewColour]; 
+} 
+for (i=0; i < ieS_star.length; i++){S_speed[i]=Math.random()*3+1} 
+for (i=0; i < ieL_star.length; i++){L_speed[i]=Math.random()*7+2} 
+function ES_go() 
+{ 
+document.all.Outer.style.pixelTop=document.body.scrollTop; 
+for (i=0; i < ieS_star.length; i++) 
+{ 
+ieS_star[i].style.pixelLeft-=S_speed[i]; 
+if (ieS_star[i].style.pixelLeft < -10){ieS_star[i].style.pixelLeft=window.document.body.offsetWidth} 
+} 
+S_timer=setTimeout('ES_go()',30); 
+} 
+function EL_go() 
+{ 
+for (i=0; i < ieL_star.length; i++) 
+{ 
+ieL_star[i].style.pixelLeft-=L_speed[i]; 
+if (ieL_star[i].style.pixelLeft < -10){ieL_star[i].style.pixelLeft=window.document.body.offsetWidth} 
+} 
+L_timer=setTimeout('EL_go()',10); 
+} 
+function IeStart() 
+{ 
+ES_go(); 
+EL_go(); 
+} 
+IeStart() 
+}//End Explorer 
+
+else if (document.layers) 
+{ 
+for (i = 0; i < S_amount; i++) 
+{ 
+S_Ypos[i] = Math.round(Math.random()*window.innerHeight); 
+S_Xpos[i] = Math.round(Math.random()*window.innerWidth); 
+document.write("<LAYER NAME='S_star"+i+"' LEFT=0 TOP=0 BGCOLOR='#FFFFF0' CLIP='0,0,1,1'></LAYER>"); 
+document.layers["S_star"+i].top = S_Ypos[i]; 
+document.layers["S_star"+i].left = S_Xpos[i]; 
+} 
+for (i = 0; i < L_amount; i++) 
+{ 
+L_Ypos[i] = Math.round(Math.random()*window.innerHeight); 
+L_Xpos[i] = Math.round(Math.random()*window.innerWidth); 
+document.write("<LAYER NAME='L_star"+i+"' LEFT=0 TOP=0 BGCOLOR='#FFFFF0' CLIP='0,0,2,2'></LAYER>"); 
+document.layers["L_star"+i].top = L_Ypos[i]; 
+document.layers["L_star"+i].left = L_Xpos[i]; 
+for (j = 0; j < cOlOuRs.length; j++) 
+{ 
+var NewColour=Math.round(Math.random()*[j]); 
+} 
+document.layers['S_star'+i].bgColor=cOlOuRs[NewColour]; 
+document.layers['L_star'+i].bgColor=cOlOuRs[NewColour]; 
+} 
+for (i=0; i < S_amount; i++){S_speed[i]=Math.random()*3+1} 
+for (i=0; i < L_amount; i++){L_speed[i]=Math.random()*7+2} 
+function NS_go() 
+{ 
+for (i=0; i < S_amount; i++) 
+{ 
+var temp="S_star"+i;//50 
+document.layers[temp].top=S_Ypos[i]+window.pageYOffset; 
+document.layers['S_star'+i].left-=S_speed[i]; 
+if (document.layers['S_star'+i].left < -10){document.layers['S_star'+i].left=window.innerWidth} 
+} 
+S_timer=setTimeout('NS_go()',30); 
+} 
+function NL_go() 
+{ 
+for (i=0; i < L_amount; i++) 
+{ 
+var temp="L_star"+i 
+document.layers[temp].top=L_Ypos[i]+window.pageYOffset; 
+document.layers['L_star'+i].left-=L_speed[i]; 
+if (document.layers['L_star'+i].left < -10){document.layers['L_star'+i].left=window.innerWidth} 
+} 
+L_timer=setTimeout('NL_go()',10); 
+} 
+function NsStart() 
+{ 
+NS_go(); 
+NL_go(); 
+} 
+NsStart(); 
+}//End Netscape 
+window.onresize = new Function("window.location.reload()"); 
+//--> 
+</script>
+
         <h2 class="text-center" style="font-family: 'Noto Sans TC', sans-serif; color:
 #FFFFFF;">My Website</h2>
         <h3 class="text-center" style="font-family: 'Noto Sans TC', sans-serif; color: 
