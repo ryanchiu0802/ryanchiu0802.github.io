@@ -68,7 +68,117 @@
 	</script>
 </head>
 <body>
-	
+	<SCRIPT LANGUAGE="JavaScript1.2" TYPE="text/javascript">
+<!--
+var uti = true;
+var speed = 6;
+var fireSize = 180; 
+var fireNo = 6;
+var wa = 4;
+var space = 15; 
+var img = "line-58.gif";
+
+
+var _dom=(document.all?3:(document.getElementById?1:(document.layers?2:0)));
+var fireLay="";
+for (i=0; i<fireNo*wa; i++) {
+    if (_dom == 1 || _dom == 3) {
+        fireLay += '<DIV id="fire' + i + '" style="position:absolute; width:1px; height:1px left:-100px; top=-100px;"><IMG src="' + img + '"></DIV>';
+    }
+    if (_dom == 2) {
+        fireLay += '<LAYER name="fire'+ i +'" left="-100" top="-100"><IMG src="' + img + '"></LAYER>\n';
+    }
+}
+document.writeln(fireLay);
+
+function getWindowSize() {
+    if(_dom == 1 || _dom == 2) {
+        win_width = self.innerWidth;
+        win_height = self.innerHeight;
+    }
+    if (_dom == 3) {
+        win_width = document.body.clientWidth;
+        win_height = document.body.clientHeight;
+    }
+}
+
+function showLayer(layerName){
+    if (_dom == 1) document.getElementById(layerName).style.visibility = "visible";
+    if (_dom == 2) document.layers[layerName].visibility = "show";
+    if (_dom == 3) document.all(layerName).style.visibility = "visible";
+}
+
+function hideLayer(layerName){
+    if (_dom == 1) document.getElementById(layerName).style.visibility = "hidden";
+    if (_dom == 2) document.layers[layerName].visibility = "hide";
+    if (_dom == 3) document.all(layerName).style.visibility = "hidden";
+}
+
+function moveLayerTo(layerName, x, y){
+    if (_dom == 1) {
+        document.getElementById(layerName).style.left = x + scrollX;
+        document.getElementById(layerName).style.top = y + scrollY;
+    }
+    if (_dom == 2) {
+        document.layers[layerName].left = x + pageXOffset;
+        document.layers[layerName].top = y + pageYOffset;
+    }
+    if (_dom == 3) {
+        document.all(layerName).style.pixelLeft = x + document.body.scrollLeft
+        document.all(layerName).style.pixelTop = y + document.body.scrollTop;
+    }
+}
+
+function utiage(layerName,sx,sy,ex,ey,dl,sp) {
+    var l, xp, yp, tim, z, dl2;
+    l=Math.abs(Math.sqrt(Math.pow((ex-sx),2)+Math.pow((ey-sy),2)));
+    z = Math.floor(l / dl); dl2 = l / z;
+    if (Math.floor(l) != 0) {
+        xp = dl2/l*(ex-sx)+sx;
+        if (ex-sx == 0) {
+            if (sy<ey) yp = sy+dl2;
+            else yp = sy-dl2;
+        } else yp = (sy-ey)/(sx-ex)*xp+sy-(sy-ey)/(sx-ex)*sx;
+        moveLayerTo(layerName,xp,yp);
+        tim = setTimeout("utiage('"+layerName+"',"+xp+","+yp+","+ex+","+ey+","+dl+","+sp+")",sp);
+    } else {
+        hideLayer(layerName);
+        setTimeout("hanabi()",100);
+    }
+}
+
+function hanabi() {
+    for (i=0; i<fireNo*wa; i++) {
+        zure1 = Math.floor(i/fireNo)%2 == 0 ? 0:(Math.PI / fireNo);
+        zure2 = Math.floor(i/fireNo) * space;
+        ran = (radius1>(fireSize*0.8)) ? Math.floor(Math.random()*20-10) : 0;
+        radius2 = (radius1 - zure2) > 0 ? radius1 - zure2 : 0;
+        if ((radius1 - zure2) > fireSize) { hideLayer("fire" + i); }
+        else { showLayer("fire" + i); }
+        moveLayerTo("fire" + i, centerX + Math.cos(i * (Math.PI * 2 / fireNo) + zure1) * (radius2) + ran, centerY + Math.sin(i * (Math.PI * 2 / fireNo) + zure1) * (radius2) + ran);
+    }
+    radius1 += speed;
+    if (radius1 > (fireSize + space * wa)) { setHanabiPos(); }
+    else { setTimeout("hanabi()",10);}
+}
+
+function setHanabiPos() {
+    rev = 0; radius1 = 0;
+    getWindowSize();
+    centerX =  Math.floor(Math.random() * (win_width - (fireSize + space * wa) * 2) + (fireSize + space * wa));
+    centerY =  Math.floor(Math.random() * (win_height - (fireSize + space * wa) * 2) + (fireSize + space * wa));
+    if (uti) {
+        showLayer("fire0");
+        utiage("fire0",centerX,(win_height + 50),centerX,centerY,speed,10);
+    } else setTimeout("hanabi()",1000);
+}
+
+if (_dom) setHanabiPos();
+
+// -->
+</SCRIPT>
+
+
         <h2 class="text-center" style="font-family: 'Noto Sans TC', sans-serif; color:
 #FFFFFF;">My Website</h2>
         <h3 class="text-center" style="font-family: 'Noto Sans TC', sans-serif; color: 
